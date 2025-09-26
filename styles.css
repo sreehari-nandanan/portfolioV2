@@ -19,6 +19,11 @@
 
 html {
     scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+}
+
+html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
 }
 
 body {
@@ -176,7 +181,7 @@ section:nth-child(odd) {
 }
 
 .hero-content h1 {
-    font-size: 4rem;
+    font-size: clamp(2rem, 5vw, 4rem);
     color: var(--dark);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     margin-bottom: 20px;
@@ -188,7 +193,7 @@ section:nth-child(odd) {
 }
 
 .hero-content p {
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 3vw, 1.3rem);
     color: var(--text-muted);
     margin: 20px 0 30px;
     max-width: 600px;
@@ -210,7 +215,8 @@ section:nth-child(odd) {
 }
 
 .hero-image img {
-    max-width: 400px;
+    max-width: 100%;
+    width: clamp(250px, 80%, 400px);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(255, 102, 0, 0.2);
     transition: 0.5s ease;
@@ -297,12 +303,16 @@ section:nth-child(odd) {
 .about-stats {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 50px;
     margin-top: 40px;
 }
 
 .stat {
     text-align: center;
+    flex: 1;
+    min-width: 150px;
+    max-width: 250px;
 }
 
 .stat .count {
@@ -318,22 +328,39 @@ section:nth-child(odd) {
     color: var(--text-muted);
 }
 
-/* Skills Section */
+/* Skills Section - UPDATED */
 .skills-container {
     display: flex;
-    flex-wrap: nowrap;
     justify-content: center;
+    align-items: center;
     gap: 30px;
     margin-top: 40px;
-    white-space: nowrap;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    flex-wrap: nowrap;
+}
+
+/* Hide scrollbar but keep functionality */
+.skills-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Skills Section - UPDATED */
+.skills-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+    width: 100%;
+    flex-wrap: wrap;
 }
 
 .skill {
     background: var(--light);
     border-radius: 15px;
     overflow: hidden;
-    width: 200px;
-    flex: 0 0 auto;
     padding: 20px;
     text-align: center;
     transition: 0.4s ease;
@@ -343,6 +370,38 @@ section:nth-child(odd) {
     align-items: center;
     position: relative;
     border: 1px solid #eee;
+    flex: 1;
+    min-width: 160px;
+    max-width: 200px;
+}
+
+/* Remove the horizontal scroll styles */
+.skills-container::-webkit-scrollbar {
+    display: initial;
+}
+
+.skills-container {
+    -ms-overflow-style: initial;
+    scrollbar-width: initial;
+    overflow-x: initial;
+}
+
+/* Responsive adjustment for skills */
+@media (max-width: 768px) {
+    .skills-container {
+        justify-content: center;
+    }
+    
+    .skill {
+        flex: 0 0 calc(33.333% - 20px);
+        min-width: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skill {
+        flex: 0 0 calc(50% - 20px);
+    }
 }
 
 .skill::before {
@@ -384,6 +443,7 @@ section:nth-child(odd) {
     color: var(--text-dark);
     margin-top: 10px;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .skill-progress {
@@ -404,16 +464,15 @@ section:nth-child(odd) {
 
 /* Projects Section */
 .projects-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
     margin-top: 40px;
+    justify-content: center;
 }
 
 .flip-card {
     background-color: transparent;
-    width: 300px;
     height: 300px;
     perspective: 1000px;
     margin-bottom: 20px;
@@ -486,20 +545,28 @@ section:nth-child(odd) {
     color: var(--primary);
     margin-bottom: 15px;
     font-weight: 700;
+    text-align: center;
 }
 
 .flip-card-back .description {
     font-size: 0.95rem;
     color: var(--text-muted);
+    text-align: center;
 }
 
 /* Achievements Section */
 .achievements-container {
     display: flex;
-    overflow: hidden;
+    overflow-x: auto;
     margin-top: 40px;
     width: 100%;
     position: relative;
+    padding-bottom: 20px;
+    scrollbar-width: none;
+}
+
+.achievements-container::-webkit-scrollbar {
+    display: none;
 }
 
 .achievements-wrapper {
@@ -544,6 +611,7 @@ section:nth-child(odd) {
     padding: 20px 20px 10px;
     color: var(--primary);
     font-size: 1.2rem;
+    text-align: center;
 }
 
 .achievement p {
@@ -551,6 +619,7 @@ section:nth-child(odd) {
     color: var(--text-muted);
     font-size: 0.95rem;
     margin-bottom: 15px;
+    text-align: center;
 }
 
 .achievement-link {
@@ -562,6 +631,7 @@ section:nth-child(odd) {
     font-size: 0.9rem;
     transition: 0.3s;
     position: relative;
+    text-align: center;
 }
 
 .achievement-link::after {
@@ -630,7 +700,7 @@ section:nth-child(odd) {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     flex: 1;
-    min-width: 300px;
+    min-width: 280px;
     max-width: 400px;
     border: 1px solid #eee;
 }
@@ -700,6 +770,7 @@ section:nth-child(odd) {
 .contact-form {
     flex: 1;
     max-width: 600px;
+    width: 100%;
 }
 
 .form-group {
@@ -791,33 +862,149 @@ footer {
     
     .hero {
         padding: 120px 5% 60px;
-        flex-direction: column;
-        text-align: center;
+    }
+
+    .achievement {
+        flex: 0 0 calc(50% - 15px);
+        min-width: 280px;
     }
     
-    .hero-content {
-        margin-bottom: 40px;
+    /* Allow skills to scroll horizontally on smaller screens */
+    .skills-container {
+        justify-content: flex-start;
+        padding-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .projects-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+        justify-content: center;
+    }
+    
+    .flip-card {
+        background-color: transparent;
+        height: 300px;
+        perspective: 1000px;
+        margin-bottom: 20px;
+        overflow: hidden; /* Prevent overflow */
+    }
+    
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+    }
+    
+    .flip-card-back {
+        background: white;
+        color: var(--text-dark);
+        transform: rotateY(180deg);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        border: 1px solid #eee;
+        box-sizing: border-box;
+        height: 100%;
+        overflow: hidden; /* Prevent content overflow */
+    }
+    
+    .flip-card-back .title {
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-align: center;
+        flex-shrink: 0;
+    }
+    
+    .flip-card-back .description {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        text-align: center;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        overflow: hidden;
+        line-height: 1.4;
+    }
+    
+    .flip-card-back .btn-small {
+        flex-shrink: 0;
+        margin-top: auto;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        max-width: 80%; /* Prevent button from being too wide */
+    }
+    
+    /* Mobile responsive - 2x n grid for small devices */
+    @media (max-width: 768px) {
+        .projects-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 30px;
+            padding: 0 8px;
+        }
+        
+        .flip-card {
+            height: 200px; /* Much shorter height for mobile 2x grid */
+            margin-bottom: 10px;
+        }
+        
+        .flip-card-back {
+            padding: 12px; /* Minimal padding */
+            justify-content: space-between;
+        }
+        
+        .flip-card-back .title {
+            font-size: 0.9rem; /* Much smaller title */
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+        
+        .flip-card-back .description {
+            font-size: 0.7rem; /* Very small description */
+            line-height: 1.2;
+            margin-bottom: 8px;
+            text-align: center;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+        }
+        
+        .flip-card-back .btn-small {
+            padding: 4px 8px; /* Very small button */
+            font-size: 0.65rem;
+            margin-top: 5px;
+            max-width: 90%;
+            border-radius: 3px;
+        }
+        
+        .flip-card-front p {
+            font-size: 1rem; /* Smaller front card title */
+        }
+    }
+    
+    /* Stack hero content vertically on smaller screens */
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
     }
     
     .hero-content p {
         margin: 20px auto 30px;
     }
     
-    .hero-content h1 {
-        font-size: 3rem;
-    }
-
-    .achievements-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .achievement {
-        flex: 0 0 calc(50% - 15px);
-    }
-}
-
-@media (max-width: 768px) {
     .nav-links {
         position: fixed;
         top: 0;
@@ -853,38 +1040,13 @@ footer {
         transform: rotate(45deg) translate(-5px, -6px);
     }
     
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
-    
-    .hero-content p {
-        font-size: 1.1rem;
-    }
-    
-    .hero-image img {
-        max-width: 300px;
-    }
-    
     .achievement {
-        width: 100%;
         flex: 0 0 calc(100% - 30px);
-    }
-    
-    .about-stats {
-        flex-direction: column;
-        gap: 20px;
+        min-width: 250px;
     }
 }
 
 @media (max-width: 480px) {
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-    
-    .hero-image img {
-        max-width: 250px;
-    }
-    
     .btn {
         padding: 10px 20px;
     }
@@ -892,16 +1054,18 @@ footer {
     h2 {
         font-size: 2rem;
     }
-}
-
-::-webkit-scrollbar {
-    display: none;
-}
-
-html {
-    scrollbar-width: none;
-}
-
-body {
-    overflow: auto;
+    
+    .contact-info, .contact-form {
+        padding: 20px;
+    }
+    
+    .form-group input, 
+    .form-group textarea {
+        padding: 12px;
+    }
+    
+    .social-icons a {
+        width: 40px;
+        height: 40px;
+    }
 }
